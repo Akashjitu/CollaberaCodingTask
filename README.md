@@ -24,6 +24,6 @@ There are 3 end point. (https://github.com/Akashjitu/CollaberaCodingTask/blob/ma
 3. GetStory: Get story based on ID.
 
 ## Note
-I haven't used any third party liberty.
-This App is Working on Https protocol. maybe require some permission.
+- I haven't used any third party liberty.
+- This App is Working on Https protocol. maybe require some permission.
 
