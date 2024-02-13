@@ -25,8 +25,11 @@ The details for an individual story ID can be retrieved from this URI: https://h
 	- Go to View menu --> Select Terminal or Just Press "CTRL+~" to open Terminal.
 	- In Terminal run the command **"dotnet watch run".**
 	- Swagger will Open automatically, if not getting open, Click on this URL http://localhost:5050/swagger/index.html
-
-
+	- 
+3. **PowerShell**
+    - Open PowerShell Terminal.
+    - Got "CollaberaCodingTask --> CollaberaCodingTask" Folder.
+    - In Terminal run the command **"dotnet watch run".**
 
 ## Swagger Action Methon
 There are 3 end point. (https://github.com/Akashjitu/CollaberaCodingTask/blob/master/CollaberaCodingTask/Controllers/NewsController.cs)
