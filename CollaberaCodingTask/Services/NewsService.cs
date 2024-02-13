@@ -1,5 +1,7 @@
 ﻿using CollaberaCodingTask.Models;
 using CollaberaCodingTask.Models.RpgModels;
+using Polly;
+using System.Net;
 using System.Text.Json;
 
 namespace CollaberaCodingTask.Services
@@ -17,19 +19,16 @@ namespace CollaberaCodingTask.Services
             _client = client;
         }
 
+
         ///<inheritdoc/>
         public async Task<ServiceResponse<int[]?>> GetStoriesAsync(CancellationToken cancellationToken)
         {
             var serviceResponse = new ServiceResponse<int[]?>();
             try
             {
-                using (var reponse = await _client.GetAsync(StoriesUrl, cancellationToken).ConfigureAwait(false))
-                {
-                    reponse.EnsureSuccessStatusCode();
-                    var content = await reponse.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                    var result = JsonSerializer.Deserialize<int[]>(content);
-                    serviceResponse.Data = result;
-                }
+                var content = await CreatePollyRequest(StoriesUrl, cancellationToken).ConfigureAwait(false);
+                var result = JsonSerializer.Deserialize<int[]>(content);
+                serviceResponse.Data = result;
             }
             catch (Exception ex)
             {
@@ -45,14 +44,9 @@ namespace CollaberaCodingTask.Services
             var serviceResponse = new ServiceResponse<Details?>();
             try
             {
-                using (var reponse = await _client.GetAsync(string.Format(StoryIdUrl, storyid), cancellationToken).ConfigureAwait(false))
-                {
-                    reponse.EnsureSuccessStatusCode();
-
-                    var content = await reponse.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                    var result = JsonSerializer.Deserialize<Details>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    serviceResponse.Data = result;
-                }
+                var content = await CreatePollyRequest(string.Format(StoryIdUrl, storyid), cancellationToken).ConfigureAwait(false);
+                var result = JsonSerializer.Deserialize<Details>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                serviceResponse.Data = result;
             }
             catch (Exception ex)
             {
@@ -60,6 +54,26 @@ namespace CollaberaCodingTask.Services
                 serviceResponse.Message = ex.Message;
             }
             return serviceResponse;
+        }
+
+
+        /// <summary>
+        /// This will help try the for 3 attempts, in case of service is down.
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <param name="cancellationToken">cancel taks any time</param>
+        /// <returns></returns>
+        private async Task<string> CreatePollyRequest(string url, CancellationToken cancellationToken)
+        {
+            var policyWithDelay = Policy.HandleResult<HttpResponseMessage>(r => r.StatusCode == HttpStatusCode.TooManyRequests) // retry on 429 errors
+                                         .WaitAndRetryAsync(3,// up to 3 attempts
+                                           retryAttempt => TimeSpan.FromSeconds(Math.Pow(5, retryAttempt)) // 5-second-based backoff exponential waiting logic
+                                         );
+
+            var response = await policyWithDelay.ExecuteAsync(() => _client.GetAsync(url, cancellationToken));
+
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }
