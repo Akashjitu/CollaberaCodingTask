@@ -39,7 +39,7 @@ There are 3 end point. (https://github.com/Akashjitu/CollaberaCodingTask/blob/ma
 
 ## Note
 - This App is Working on Https protocol. maybe require some permission.
-- **Port can be change,becasue it's not static**.
+- **Port can be change,because it's not static**.
 - **Please first check Port alrady not in use**.
 ## Development
 - Created this app using TargetFramework **net7.0** (.Net Core) 
