@@ -40,7 +40,7 @@ There are 3 end point. (https://github.com/Akashjitu/CollaberaCodingTask/blob/ma
 ## Note
 - This App is Working on Https protocol. maybe require some permission.
 - **Port can be change,because it's not static**.
-- **Please first check Port alrady not in use**.
+- **Please first check Port already not in use**.
 ## Development
 - Created this app using TargetFramework **net7.0** (.Net Core) 
 - I'm using Small MicroService with this app.
@@ -50,6 +50,6 @@ There are 3 end point. (https://github.com/Akashjitu/CollaberaCodingTask/blob/ma
 
 ## Not Include 
 **As of now, I haven't included any Unit Tests. If you require unit tests for the application, kindly inform me, and I'll be happy to incorporate them.**
-**Unit Test was not mentioned in the requirement**
+**Unit Test was not mentioned in the requirement.**
 
 
