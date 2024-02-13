@@ -48,5 +48,8 @@ There are 3 end point. (https://github.com/Akashjitu/CollaberaCodingTask/blob/ma
 - Created Separate class for Response, so user can handle Exception.(https://github.com/Akashjitu/CollaberaCodingTask/blob/master/CollaberaCodingTask/Models/RpgModels/ServiceResponse.cs)
 - Using Async Programming to reduce the load.
 
+## Not Include 
+**As of now, I haven't included any Unit Tests. If you require unit tests for the application, kindly inform me, and I'll be happy to incorporate them.**
+**Unit Test was not mentioned in the requirement**
 
 
